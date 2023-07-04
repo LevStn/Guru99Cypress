@@ -1,3 +1,5 @@
+const URL = "https://demo.guru99.com/telecom/addtariffplans.php";
+
 describe("Add tariff", () => {
   beforeEach(() => {
     cy.fixture("cookies.json").then((cookies) => {
@@ -48,6 +50,7 @@ describe("Add tariff", () => {
     cy.insertData(values);
     cy.checkFieldValues(values);
     cy.submitClick();
+    cy.url().should("eq", URL);
     cy.checkSuccessMessage("Congratulation you add Tariff Plan");
   });
 
@@ -56,11 +59,12 @@ describe("Add tariff", () => {
     cy.insertData(values);
     cy.checkFieldValues(values);
     cy.submitClick();
+    cy.url().should("eq", URL);
     cy.checkSuccessMessage("Congratulation you add Tariff Plan");
   });
 
   it("Check special characters", () => {
-    const fieldValues = [999, 999, 999, 999, 999, 999, 999];
+    const fieldValues = Array(7).fill(999);
     const invalidValue = "1?1";
 
     cy.checkInvalidValue(
@@ -71,7 +75,7 @@ describe("Add tariff", () => {
   });
 
   it("Check chars", () => {
-    const fieldValues = [999, 999, 999, 999, 999, 999, 999];
+    const fieldValues = Array(7).fill(999);
     const invalidValue = "1a1";
 
     cy.checkInvalidValue(
@@ -82,27 +86,22 @@ describe("Add tariff", () => {
   });
 
   it("Check empty field", () => {
-    const fieldValues = [999, 999, 999, 999, 999, 999, 999];
+    const fieldValues = Array(7).fill(999);
+    const invalidValue = "";
+
+    cy.checkInvalidValue(fieldValues, invalidValue, "Number must not be blank");
+  });
+
+  it("Checking the maximum length for fields", () => {
+    const fieldValues = [100000, 100000, 100000, 100000, 1000, 1000, 1000];
+    const actualValue = [10000, 10000, 10000, 10000, 100, 100, 100];
 
     cy.insertData(fieldValues);
-    fieldValues.forEach((value, index) => {
-      cy.removeDataAtIndex(index);
-
-      if (index !== 0 && index < fieldValues.length) {
-        cy.removeDataAtIndex(index - 1);
-        cy.insertDataAtIndex(index - 1, 999);
-        cy.removeDataAtIndex(index);
-
-        cy.checkErrorMessages("Number must not be blank", index);
-        cy.submitClick().then((stub) => {
-          cy.popUpErrorCheck(stub);
-        });
-      }
-    });
+    cy.checkFieldValues(actualValue);
   });
 
   it("Check negative value", () => {
-    const fieldValues = [999, 999, 999, 999, 999, 999, 999];
+    const fieldValues = Array(7).fill(999);
     const invalidValue = -1;
 
     cy.checkInvalidValue(
@@ -110,5 +109,27 @@ describe("Add tariff", () => {
       invalidValue,
       "Negative values are not allowed"
     );
+  });
+
+  it("Сhecking the minimum value for monthly rent", () => {
+    const values = [0, 0, 0, 0, 0, 0, 0];
+    cy.insertData(values);
+    cy.checkFieldValues(values);
+    cy.submitClick().then((stub) => {
+      cy.popUpErrorCheck(stub);
+    });
+  });
+
+  it("Checking button reset", () => {
+    const fieldValues = Array(7).fill(999);
+    const expectedValues = Array(7).fill("");
+
+    cy.insertData(fieldValues);
+    cy.checkFieldValues(fieldValues);
+    cy.get('input[type="reset"].alt').click();
+    cy.checkFieldValues(expectedValues);
+    cy.submitClick().then((stub) => {
+      cy.popUpErrorCheck(stub);
+    });
   });
 });

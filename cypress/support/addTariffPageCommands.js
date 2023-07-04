@@ -6,7 +6,16 @@ Cypress.Commands.add("insertData", (values) => {
 });
 
 Cypress.Commands.add("insertDataAtIndex", (index, value) => {
-  cy.get(".uniform > .3u > input").eq(index).scrollIntoView().type(value);
+  cy.get(".uniform > .3u > input")
+    .eq(index)
+    .scrollIntoView()
+    .then(($el) => {
+      if (value !== undefined && value !== "") {
+        cy.wrap($el).clear().type(value.toString());
+      } else {
+        cy.wrap($el).clear();
+      }
+    });
 });
 
 Cypress.Commands.add("removeDataAtIndex", (index, value) => {
