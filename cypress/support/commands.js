@@ -1,1 +1,2 @@
-import "./addTariffPageCommands";
+import "./addTariffCommands";
+import "./addCustomerCommands";
