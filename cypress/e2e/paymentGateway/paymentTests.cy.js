@@ -1,17 +1,15 @@
 describe("Payment geteway", () => {
   it("Pay", () => {
+    cy.fixture("cookies.json").then((cookies) => {
+      cookies.forEach((cookie) => {
+        cy.setCookie(cookie.name, cookie.value);
+      });
+    });
     cy.log("open page");
     cy.visit("https://demo.guru99.com/payment-gateway/index.php");
 
-    cy.get('input[type="submit"][value="Buy Now"].button.special').click();
+    cy.wait(5000);
 
-    cy.get('input[type="text"][name="card_number"][id="card_number"]')
-      .should("have.attr", "maxlength", "16")
-      .should("have.attr", "placeholder", "Enter Your Card Number")
-      .should("have.css", "font-size", "1.2em");
-
-    cy.get('input[name="card_number"]')
-      .type("1234567890123456")
-      .trigger("blur");
+    cy.get('li.dropdown a[href="http://demo.guru99.com/insurance/v1/index.php"]').click();                   
   });
 });

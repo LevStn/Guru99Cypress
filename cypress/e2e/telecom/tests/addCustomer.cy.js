@@ -1,6 +1,14 @@
 const SUCCESS_URL = "https://demo.guru99.com/telecom/access.php?uid=";
 const BASE_URL = "https://demo.guru99.com/telecom/addcustomer.php";
 
+const validCustomer = {
+  fname: "John",
+  lname: "Doe",
+  email: "test@test.com",
+  message: "This is my address",
+  telephoneno: "1234567890",
+};
+
 describe("Add customer", () => {
   beforeEach(() => {
     cy.fixture("cookies.json").then((cookies) => {
@@ -25,17 +33,9 @@ describe("Add customer", () => {
   });
 
   it("Enter valid data whith the radiobutton done", () => {
-    const data = {
-      fname: "John",
-      lname: "Doe",
-      email: "test@test.com",
-      message: "This is my address",
-      telephoneno: "1234567890",
-    };
-
     cy.get("#done").check({ force: true });
-    cy.fillForm(data);
-    cy.checkFormData(data);
+    cy.fillForm(validCustomer);
+    cy.checkFormData(validCustomer);
     cy.get('input[type="submit"]').click();
 
     cy.getCustomerIdFromTable().then((customerId) => {
@@ -44,17 +44,9 @@ describe("Add customer", () => {
   });
 
   it("Enter valid data whith the radiobutton pending", () => {
-    const data = {
-      fname: "John",
-      lname: "Doe",
-      email: "test@test.com",
-      message: "This is my address",
-      telephoneno: "1234567890",
-    };
-
     cy.get("#pending").check({ force: true });
-    cy.fillForm(data);
-    cy.checkFormData(data);
+    cy.fillForm(validCustomer);
+    cy.checkFormData(validCustomer);
     cy.get('input[type="submit"]').click();
 
     cy.getCustomerIdFromTable().then((customerId) => {
@@ -63,14 +55,6 @@ describe("Add customer", () => {
   });
 
   it("Check invalid customer name", () => {
-    const validData = {
-      fname: "John",
-      lname: "Doe",
-      email: "test@test.com",
-      message: "This is my address",
-      telephoneno: "1234567890",
-    };
-
     const ErrorMessages = [
       "Special characters are not allowed",
       "Numbers are not allowed",
@@ -84,7 +68,7 @@ describe("Add customer", () => {
 
     invalidData.forEach((invalidData, index) => {
       cy.checkInvalidData(
-        validData,
+        validCustomer,
         invalidData,
         ErrorMessages[index],
         invalidFields
@@ -93,14 +77,6 @@ describe("Add customer", () => {
   });
 
   it("Check invalid phone number", () => {
-    const validData = {
-      fname: "John",
-      lname: "Doe",
-      email: "test@test.com",
-      message: "This is my address",
-      telephoneno: "1234567890",
-    };
-
     const ErrorMessages = [
       "Characters are not allowed",
       "Special characters are not allowed",
@@ -114,7 +90,7 @@ describe("Add customer", () => {
 
     invalidData.forEach((invalidData, index) => {
       cy.checkInvalidData(
-        validData,
+        validCustomer,
         invalidData,
         ErrorMessages[index],
         invalidFields
@@ -123,15 +99,7 @@ describe("Add customer", () => {
   });
 
   it("Сheck for invalid emails", () => {
-    const validData = {
-      fname: "John",
-      lname: "Doe",
-      email: "test@test.com",
-      message: "This is my address",
-      telephoneno: "1234567890",
-    };
-
-    cy.fillForm(validData);
+    cy.fillForm(validCustomer);
     const emails = ["asa@gmailru", "assagmail.ru"];
 
     emails.forEach((email) => {
@@ -167,13 +135,6 @@ describe("Add customer", () => {
   });
 
   it("Check reset button", () => {
-    const data = {
-      fname: "John",
-      lname: "Doe",
-      email: "test@test.com",
-      message: "This is my address",
-      telephoneno: "1234567890",
-    };
     const expectedData = {
       fname: "",
       lname: "",
@@ -183,8 +144,8 @@ describe("Add customer", () => {
     };
 
     cy.get("#pending").check({ force: true });
-    cy.fillForm(data);
-    cy.checkFormData(data);
+    cy.fillForm(validCustomer);
+    cy.checkFormData(validCustomer);
     cy.get('input[type="reset"]').click();
     cy.checkFormData(expectedData);
 
