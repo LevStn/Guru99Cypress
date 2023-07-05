@@ -38,7 +38,7 @@ describe("Add customer", () => {
     cy.checkFormData(validCustomer);
     cy.get('input[type="submit"]').click();
 
-    cy.getCustomerIdFromTable().then((customerId) => {
+    cy.getCustomerId().then((customerId) => {
       cy.url().should("eq", `${SUCCESS_URL}${customerId}`);
     });
   });
@@ -49,7 +49,7 @@ describe("Add customer", () => {
     cy.checkFormData(validCustomer);
     cy.get('input[type="submit"]').click();
 
-    cy.getCustomerIdFromTable().then((customerId) => {
+    cy.getCustomerId().then((customerId) => {
       cy.url().should("eq", `${SUCCESS_URL}${customerId}`);
     });
   });

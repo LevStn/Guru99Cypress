@@ -22,7 +22,7 @@ Cypress.Commands.add("clearForm", () => {
   cy.get("#telephoneno").clear();
 });
 
-Cypress.Commands.add("getCustomerIdFromTable", () => {
+Cypress.Commands.add("getCustomerId", () => {
   return cy
     .get("table.alt.access h3")
     .invoke("text")
