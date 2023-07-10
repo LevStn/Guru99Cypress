@@ -1,4 +1,4 @@
-const URL = "https://demo.guru99.com/telecom/billing.php";
+const URL = "https://demo.guru99.com/telecom/assigntariffplantocustomer.php";
 let customerIdValue;
 
 describe("Pay Billing", () => {
@@ -23,12 +23,20 @@ describe("Pay Billing", () => {
     cy.get("#customer_id").should("have.value", customerIdValue);
     cy.get('[name="submit"]').should("be.visible").click();
     cy.url().should("eq", URL);
-    cy.contains("Customer ID:-")
-      .should("be.visible")
-      .should("contain.text", customerIdValue);
-    cy.contains("Customer Name:-")
-      .should("be.visible")
-      .should("contain.text", "John");
+    cy.contains("Approved Tariff Plans").should("be.visible");
+    cy.get("tr").should("exist");
+
+    cy.contains("Unapproved Tariff Plans").should("be.visible");
+    cy.get('input[type="submit"]').should("be.visible").click();
+    cy.url().should(
+      "eq",
+      "https://demo.guru99.com/telecom/inserttariffplantocustomer.php"
+    );
+
+    cy.contains("Congratulation Tariff Plan assigned").should("be.visible");
+    cy.get('a.button[href="index.html"]').should("be.visible").click();
+
+    cy.url().should("eq", "https://demo.guru99.com/telecom/index.html");
   });
 
   it("Input field validation check customerId", () => {
@@ -54,9 +62,9 @@ describe("Pay Billing", () => {
       cy.url().should("eq", URL);
 
       if (cy.contains("Please Input Your Correct Customer ID")) {
-        cy.get('a.button[href="billing.php"]').should("be.visible").click();
+        cy.get('a.button[href="assigntariffplantocustomer.php"]').click();
       } else {
-        cy.contains("Customer ID:-");
+        cy.contains("Unapproved Tariff Plans");
         cy.go("back");
       }
     });
