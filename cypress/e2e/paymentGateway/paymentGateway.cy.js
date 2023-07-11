@@ -165,7 +165,7 @@ describe("Payment geteway", () => {
     cy.url().should("eq", PAYMENT_URL);
   });
 
-  it("Minimum cvv length", () => {
+  it("Minimum -1 cvv length", () => {
     const invalidCvv = {
       ...validCards["Visa"],
       cvv: validCards["Visa"].cvv.slice(0, -1),
