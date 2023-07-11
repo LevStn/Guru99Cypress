@@ -94,3 +94,7 @@ Cypress.Commands.add("checkLogo", () => {
     .should("have.css", "font-family", "Pacifico, cursive")
     .should("have.css", "font-weight", "300");
 });
+
+Cypress.Commands.add('getJson', (filename) => {
+  return cy.readFile(`cypress/fixtures/${filename}`);
+});

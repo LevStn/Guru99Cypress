@@ -1,14 +1,14 @@
 const SUCCESS_URL = "https://demo.guru99.com/telecom/access.php?uid=";
 const BASE_URL = "https://demo.guru99.com/telecom/addcustomer.php";
-const validCustomer = {
-  fname: "Jo",
-  lname: "Deep",
-  email: "test@test.com",
-  message: "My address",
-  telephoneno: "7778889991",
-};
 
 describe("Add customer", () => {
+  let validCustomer;
+  before(() => {
+    cy.readFile("cypress/fixtures/customer.json").then((json) => {
+      validCustomer = json;
+    });
+  });
+  
   beforeEach(() => {
     cy.fixture("cookies.json").then((cookies) => {
       cookies.forEach((cookie) => {
