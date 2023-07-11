@@ -1,7 +1,12 @@
 const SUCCESS_URL = "https://demo.guru99.com/telecom/access.php?uid=";
 const BASE_URL = "https://demo.guru99.com/telecom/addcustomer.php";
-
-const validCustomer = require("../fixtures/customer.json");
+const validCustomer = {
+  fname: "Jo",
+  lname: "Deep",
+  email: "test@test.com",
+  message: "My address",
+  telephoneno: "7778889991",
+};
 
 describe("Add customer", () => {
   beforeEach(() => {
