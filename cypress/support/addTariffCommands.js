@@ -30,7 +30,10 @@ Cypress.Commands.add("checkFieldValues", (values) => {
 });
 
 Cypress.Commands.add("checkSuccessMessage", (message) => {
-  cy.get("h2").should("have.text", message);
+  cy.get("h2")
+    .should("have.text", message)
+    .should("have.css", "color", "rgb(37, 162, 195)")
+    .should("have.css", "text-align", "center");
 });
 
 Cypress.Commands.add("checkErrorMessages", (expectedError, index) => {
@@ -85,3 +88,13 @@ Cypress.Commands.add(
     });
   }
 );
+
+Cypress.Commands.add("clickButtonAndVerify", (text) => {
+  cy.get("a.button")
+    .should("be.visible")
+    .should("have.css", "background-color", "rgb(246, 117, 94)")
+    .should("have.css", "color", "rgb(255, 255, 255)")
+    .should("have.css", "text-align", "center")
+    .contains(text)
+    .click();
+});

@@ -17,17 +17,52 @@ describe("Pay Billing", () => {
     cy.log("open page");
     cy.visit(`${URL}`);
   });
+  it("Element Presence check on Add Tariff Plan to Customer", () => {
+    cy.get("header.align-center h1")
+      .should("have.css", "color", "rgb(37, 162, 195)")
+      .should("have.css", "text-align", "center")
+      .should("have.text", "Add Tariff Plan to Customer");
+
+    cy.get("div.4u.12u\\$\\(small\\) h3")
+      .should("have.css", "text-align", "center")
+      .should("have.css", "color", "rgb(37, 162, 195)")
+      .contains("Enter Your Customer ID");
+
+    cy.get("#customer_id")
+      .should("be.visible")
+      .should("have.attr", "placeholder", "Enter Your Customer ID");
+
+    cy.checkLogo();
+
+    cy.get('input[type="submit"]')
+      .should("be.visible")
+      .should("have.css", "background-color", "rgb(246, 117, 94)")
+      .should("have.css", "color", "rgb(255, 255, 255)")
+      .should("have.css", "text-align", "center");
+  });
 
   it("Valid client entered", () => {
     cy.get("#customer_id").should("be.visible").type(customerIdValue);
     cy.get("#customer_id").should("have.value", customerIdValue);
     cy.get('[name="submit"]').should("be.visible").click();
     cy.url().should("eq", URL);
-    cy.contains("Approved Tariff Plans").should("be.visible");
+
+    cy.contains("Approved Tariff Plans")
+      .should("be.visible")
+      .should("have.css", "color", "rgb(37, 162, 195)");
     cy.get("tr").should("exist");
 
-    cy.contains("Unapproved Tariff Plans").should("be.visible");
-    cy.get('input[type="submit"]').should("be.visible").click();
+    cy.contains("Unapproved Tariff Plans")
+      .should("be.visible")
+      .should("have.css", "color", "rgb(37, 162, 195)");
+
+    cy.get('input[type="submit"]')
+      .should("be.visible")
+      .should("have.css", "background-color", "rgb(246, 117, 94)")
+      .should("have.css", "color", "rgb(255, 255, 255)")
+      .should("have.css", "text-align", "center")
+      .click();
+      
     cy.url().should(
       "eq",
       "https://demo.guru99.com/telecom/inserttariffplantocustomer.php"

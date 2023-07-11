@@ -25,6 +25,8 @@ Cypress.Commands.add("clearForm", () => {
 Cypress.Commands.add("getCustomerId", () => {
   return cy
     .get("table.alt.access h3")
+    .should("be.visible")
+    .should("have.css", "color", "rgb(37, 162, 195)")
     .invoke("text")
     .then((text) => {
       return text.trim();
@@ -80,3 +82,15 @@ Cypress.Commands.add(
     });
   }
 );
+
+Cypress.Commands.add("checkLogo", () => {
+  cy.get("a.logo")
+    .should("be.visible")
+    .should("have.css", "background-color", "rgba(0, 0, 0, 0)")
+    .should("have.css", "color", "rgb(246, 117, 94)")
+    .should("have.css", "margin-top", "-5px")
+    .should("have.css", "padding-left", "600px")
+    .should("have.css", "font-size", "37px")
+    .should("have.css", "font-family", "Pacifico, cursive")
+    .should("have.css", "font-weight", "300");
+});

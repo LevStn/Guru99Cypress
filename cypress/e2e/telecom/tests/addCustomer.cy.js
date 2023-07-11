@@ -21,37 +21,131 @@ describe("Add customer", () => {
   });
 
   it("Element Presence check on Add Customer", () => {
+    cy.get("header.align-center h1")
+      .should("have.text", "Add Customer")
+      .should("have.css", "color", "rgb(37, 162, 195)")
+      .should("have.css", "font-weight", "700")
+      .should("have.css", "font-family", "Montserrat, sans-serif")
+      .should("have.css", "font-size", "29px")
+      .should("have.css", "line-height", "38px");
+
+    cy.get("form")
+      .contains("h3", "Background Check")
+      .should("be.visible")
+      .should("have.css", "color", "rgb(37, 162, 195)")
+      .should("have.css", "font-weight", "700")
+      .should("have.css", "font-family", "Montserrat, sans-serif")
+      .should("have.css", "font-size", "18px");
+
+    cy.get('label[for="done"]')
+      .should("exist")
+      .should("have.text", "Done")
+      .should("have.css", "color", "rgb(118, 125, 133)");
     cy.get("input#done").should("exist");
+
+    cy.get('label[for="pending"]')
+      .should("exist")
+      .should("have.text", "Pending")
+      .should("have.css", "color", "rgb(118, 125, 133)");
     cy.get("input#pending").should("exist");
-    cy.get("input#fname").should("be.visible");
-    cy.get("input#lname").should("be.visible");
-    cy.get("input#email").should("be.visible");
-    cy.get("textarea#message").should("be.visible");
-    cy.get("input#telephoneno").should("be.visible");
-    cy.get('input[type="submit"]').should("be.visible");
-    cy.get('input[type="reset"]').should("be.visible");
+
+    cy.get("div.12u\\$ h3")
+      .should("exist")
+      .should("have.text", "Billing address")
+      .should("have.css", "color", "rgb(37, 162, 195)")
+      .should("have.css", "font-weight", "700")
+      .should("have.css", "font-family", "Montserrat, sans-serif")
+      .should("have.css", "font-size", "18px");
+
+    cy.get("input#fname")
+      .should("be.visible")
+      .should("have.attr", "placeholder", "FirstName");
+    cy.get("input#lname")
+      .should("be.visible")
+      .should("have.attr", "placeholder", "LastName");
+    cy.get("input#email")
+      .should("be.visible")
+      .should("have.attr", "placeholder", "Email");
+    cy.get("textarea#message")
+      .should("be.visible")
+      .should("have.attr", "placeholder", "Enter your address");
+    cy.get("input#telephoneno")
+      .should("be.visible")
+      .should("have.attr", "maxlength", "12")
+      .should("have.attr", "placeholder", "Mobile Number");
+
+    cy.get('input[type="submit"]')
+      .should("be.visible")
+      .should("have.css", "background-color", "rgb(246, 117, 94)")
+      .should("have.css", "color", "rgb(255, 255, 255)")
+      .should("have.css", "text-align", "center");
+
+    cy.get('input[type="reset"]')
+      .should("be.visible")
+      .should("have.css", "background-color", "rgba(0, 0, 0, 0)")
+      .should("have.css", "color", "rgb(114, 122, 130)")
+      .should("have.css", "text-align", "center");
+
+      cy.checkLogo();
   });
 
   it("Enter valid data whith the radiobutton done", () => {
+    let validId;
     cy.get("#done").check({ force: true });
     cy.fillForm(validCustomer);
     cy.checkFormData(validCustomer);
     cy.get('input[type="submit"]').click();
 
     cy.getCustomerId().then((customerId) => {
+      validId = customerId;
       cy.url().should("eq", `${SUCCESS_URL}${customerId}`);
     });
+
+    cy.checkLogo();
+
+    cy.get("h1")
+      .should("exist")
+      .should("be.visible")
+      .should("have.css", "color", "rgb(37, 162, 195)")
+      .should("have.text", "Access Details to Guru99 Telecom")
+      .should("have.css", "text-align", "center");
+
+    cy.clickButtonAndVerify("Home");
+
+    cy.contains("Add Tariff Plan to Customer")
+      .click()
+      .then(() => {
+        cy.get("#customer_id").type(validId);
+        cy.get('input[name="submit"]').click();
+      });
+    cy.get("font").should("contain", "ACTIVE");
   });
 
   it("Enter valid data whith the radiobutton pending", () => {
+    let validId;
     cy.get("#pending").check({ force: true });
     cy.fillForm(validCustomer);
     cy.checkFormData(validCustomer);
     cy.get('input[type="submit"]').click();
 
     cy.getCustomerId().then((customerId) => {
+      validId = customerId;
       cy.url().should("eq", `${SUCCESS_URL}${customerId}`);
     });
+
+    cy.get("a.button").contains("Home").click();
+    cy.contains("Add Tariff Plan to Customer")
+      .click()
+      .then(() => {
+        cy.get("#customer_id").type(validId);
+        cy.get('input[name="submit"]').click();
+      });
+    cy.get("font").should("contain", "INACTIVE");
+  });
+
+  it("Сhecking the transition to the home page when clicking on the logo", () => {
+    cy.get("a.logo").contains("Guru99 telecom").click();
+    cy.url().should("eq", "https://demo.guru99.com/telecom/index.html");
   });
 
   it("Check invalid customer name", () => {

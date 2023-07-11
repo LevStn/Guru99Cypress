@@ -18,17 +18,71 @@ describe("Pay Billing", () => {
     cy.visit(`${URL}`);
   });
 
+  it("Element Presence check on Pay Billing", () => {
+    cy.get("header.align-center h1")
+      .should("have.css", "color", "rgb(37, 162, 195)")
+      .should("have.css", "text-align", "center")
+      .should("have.text", "Pay Billing");
+
+    cy.get("div.4u.12u\\$\\(small\\) h3")
+      .should("have.css", "text-align", "center")
+      .should("have.css", "color", "rgb(37, 162, 195)")
+      .contains("Enter Your Customer ID");
+
+    cy.get("#customer_id")
+      .should("be.visible")
+      .should("have.attr", "placeholder", "Enter Your Customer ID");
+
+    cy.checkLogo();
+
+    cy.get('input[type="submit"]')
+      .should("be.visible")
+      .should("have.css", "background-color", "rgb(246, 117, 94)")
+      .should("have.css", "color", "rgb(255, 255, 255)")
+      .should("have.css", "text-align", "center");
+  });
+
   it("Valid client entered", () => {
     cy.get("#customer_id").should("be.visible").type(customerIdValue);
     cy.get("#customer_id").should("have.value", customerIdValue);
     cy.get('[name="submit"]').should("be.visible").click();
     cy.url().should("eq", URL);
+
+    cy.get("header.align-center h1")
+      .should("have.css", "color", "rgb(37, 162, 195)")
+      .should("have.css", "text-align", "center")
+      .should("have.text", "Pay Billing");
+
     cy.contains("Customer ID:-")
       .should("be.visible")
-      .should("contain.text", customerIdValue);
+      .should("contain.text", customerIdValue)
+      .should("have.css", "color", "rgb(37, 162, 195)");
     cy.contains("Customer Name:-")
       .should("be.visible")
-      .should("contain.text", "John");
+      .should("contain.text", "John")
+      .should("have.css", "color", "rgb(37, 162, 195)");
+    cy.checkLogo();
+
+    const expectedValues = [
+      ["Local Minutes", "200", "220", "20", "50"],
+      ["International Minutes", "100", "110", "10", "200"],
+      ["SMS Pack", "500", "400", "0", "0"],
+      ["Tariff Plan Amount", "", "", "", "500"],
+      ["Usage Charges", "", "", "", "250"],
+      ["Total Bill", "", "", "", "750"],
+    ];
+
+    cy.get("div.table-wrapper table.alt tbody tr").each(($row, rowIndex) => {
+      cy.wrap($row)
+        .find("td")
+        .each(($td, columnIndex) => {
+          const cellText = $td.text().trim();
+          if (cellText !== "" && expectedValues[rowIndex][columnIndex] !== "") {
+            const expectedValue = expectedValues[rowIndex][columnIndex];
+            expect(cellText).to.eq(expectedValue);
+          }
+        });
+    });
   });
 
   it("Input field validation check customerId", () => {

@@ -47,13 +47,44 @@ describe("Payment geteway", () => {
   });
 
   it("Element Presence check on pay page", () => {
+    cy.get(".align-center h2")
+      .should("have.css", "text-align", "center")
+      .should("have.css", "color", "rgb(85, 85, 85)")
+      .should("have.text", "Payment Process");
+
+    cy.get(".row")
+      .contains("Pay Ammount")
+      .should("have.css", "color", "rgb(154, 154, 154)");
+
+    cy.get("font")
+      .contains("$20.00")
+      .should("have.css", "color", "rgb(255, 0, 0)");
+
+    cy.get(".row.uniform h4")
+      .contains("We accept")
+      .should("have.css", "text-align", "center")
+      .should("have.css", "color", "rgb(85, 85, 85)");
+
+    cy.get('[class="6u$ 12u$(xsmall)"] img').should("be.visible");
+
     cy.get("#card_nmuber")
       .should("be.visible")
-      .and("have.attr", "maxlength", "16");
+      .and("have.attr", "maxlength", "16")
+      .should("have.attr", "placeholder", "Enter Your Card Number");
+
     cy.get("#month").should("be.visible");
     cy.get("#year").should("be.visible");
-    cy.get("#cvv_code").should("be.visible").and("have.attr", "maxlength", "3");
-    cy.get(".button.special").should("be.visible");
+
+    cy.get("#cvv_code")
+      .should("be.visible")
+      .and("have.attr", "maxlength", "3")
+      .should("have.attr", "placeholder", "CVV Code");
+
+    cy.get(".button.special")
+      .should("be.visible")
+      .should("have.css", "background-color", "rgb(108, 192, 145)")
+      .should("have.css", "color", "rgb(255, 255, 255)")
+      .should("have.value", "Pay $20.00");
   });
 
   it("Сorrect payment from valid banks", () => {
@@ -77,6 +108,9 @@ describe("Payment geteway", () => {
         cy.get("input.button.special").click();
       }
     });
+    cy.get(".table-wrapper h2")
+      .contains("Payment successfull!")
+      .should("have.css", "color", "rgb(85, 85, 85)");
   });
 
   it("Maximum length check", () => {
