@@ -1,13 +1,7 @@
 const SUCCESS_URL = "https://demo.guru99.com/telecom/access.php?uid=";
 const BASE_URL = "https://demo.guru99.com/telecom/addcustomer.php";
 
-const validCustomer = {
-  fname: "John",
-  lname: "Doe",
-  email: "test@test.com",
-  message: "This is my address",
-  telephoneno: "1234567890",
-};
+const validCustomer = require("../fixtures/customer.json");
 
 describe("Add customer", () => {
   beforeEach(() => {
@@ -86,7 +80,7 @@ describe("Add customer", () => {
       .should("have.css", "color", "rgb(114, 122, 130)")
       .should("have.css", "text-align", "center");
 
-      cy.checkLogo();
+    cy.checkLogo();
   });
 
   it("Enter valid data whith the radiobutton done", () => {
