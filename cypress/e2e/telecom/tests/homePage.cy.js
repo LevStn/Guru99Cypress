@@ -84,14 +84,13 @@ describe("Home page", () => {
     cy.get(".flex-item.image").find("img").should("exist");
 
     links.forEach((link) => {
-      cy.get(link.selector).find(`a[href="${link.link}"]`).click();
+      cy.get(link.selector)
+        .find(`a[href="${link.link}"]`)
+        .should("have.text", link.heading)
+        .should("have.css", "color", "rgb(37, 162, 195)")
+        .click();
       cy.url().should(`eq`, `https://demo.guru99.com/telecom/${link.link}`);
       cy.go("back");
-
-      cy.get(link.selector)
-        .find(`h3 a[href="${link.link}"]`)
-        .should("have.text", link.heading)
-        .should("have.css", "color", "rgb(37, 162, 195)");
 
       cy.get(link.selector)
         .find('p[style="font-weight:300;font-size:15px;line-height:20px;"]')

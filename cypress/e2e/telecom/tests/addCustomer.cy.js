@@ -8,7 +8,7 @@ describe("Add customer", () => {
       validCustomer = json;
     });
   });
-  
+
   beforeEach(() => {
     cy.fixture("cookies.json").then((cookies) => {
       cookies.forEach((cookie) => {

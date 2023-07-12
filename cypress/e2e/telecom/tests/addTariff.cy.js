@@ -8,9 +8,10 @@ const elements = [
   "International Per Minutes Charges",
   "SMS Per Charges",
 ];
-let customerId;
 
 describe("Add tariff", () => {
+  let customerId;
+
   before(() => {
     cy.getValidCustomerId().then((id) => {
       customerId = id;
@@ -109,6 +110,7 @@ describe("Add tariff", () => {
       .should("have.css", "text-align", "center");
 
     cy.checkLogo();
+    
     cy.clickButtonAndVerify("Home");
     cy.contains("Add Tariff Plan to Customer")
       .click()

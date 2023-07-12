@@ -113,7 +113,7 @@ describe("Payment geteway", () => {
       .should("have.css", "color", "rgb(85, 85, 85)");
   });
 
-  it("Maximum length check", () => {
+  it("Maximum +1 length check", () => {
     const testCard = {
       ...validCards["Visa"],
       number: validCards["Visa"].number + "1",
@@ -123,7 +123,7 @@ describe("Payment geteway", () => {
     cy.verifyCardDetails(validCards["Visa"]);
   });
 
-  it("Minimum card number length", () => {
+  it("Maximum -1 card number length", () => {
     const invalidNumber = {
       ...validCards["Visa"],
       number: validCards["Visa"].number.slice(0, -1),
@@ -132,10 +132,6 @@ describe("Payment geteway", () => {
     cy.verifyCardDetails(invalidNumber);
     cy.get(".button.special").click();
     cy.url().should("eq", PAYMENT_URL);
-    const invalidCvv = {
-      ...validCards["Visa"],
-      cvv: validCards["Visa"].cvv.slice(0, -1),
-    };
   });
 
   it("Checking dropdowns for default values", () => {
@@ -165,7 +161,7 @@ describe("Payment geteway", () => {
     cy.url().should("eq", PAYMENT_URL);
   });
 
-  it("Minimum -1 cvv length", () => {
+  it("Maximum -1 cvv length", () => {
     const invalidCvv = {
       ...validCards["Visa"],
       cvv: validCards["Visa"].cvv.slice(0, -1),
