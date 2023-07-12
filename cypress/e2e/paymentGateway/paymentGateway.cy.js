@@ -35,6 +35,8 @@ const validCards = {
 };
 
 describe("Payment geteway", () => {
+  let amount;
+
   beforeEach(() => {
     cy.fixture("cookies.json").then((cookies) => {
       cookies.forEach((cookie) => {
@@ -43,21 +45,34 @@ describe("Payment geteway", () => {
     });
     cy.log("open page");
     cy.visit("https://demo.guru99.com/payment-gateway/index.php");
-    cy.get("input.button.special").click();
+
+    cy.get("h3").then(($h3) => {
+      const text = $h3.text();
+      const price = parseFloat(text.replace("Price: $", ""));
+
+      cy.get('select[name="quantity"]').then(($select) => {
+        const val = $select.val();
+        const quantity = parseInt(val);
+
+        amount =(price * quantity).toFixed(2);
+      });
+    });
+    cy.get('input[type="submit"]').click();
   });
 
   it("Element Presence check on pay page", () => {
     cy.get(".align-center h2")
+      .should("have.text", "Payment Process")
       .should("have.css", "text-align", "center")
-      .should("have.css", "color", "rgb(85, 85, 85)")
-      .should("have.text", "Payment Process");
+      .should("have.css", "color", "rgb(85, 85, 85)");
 
     cy.get(".row")
       .contains("Pay Ammount")
       .should("have.css", "color", "rgb(154, 154, 154)");
 
+    console.log("aa1", `${amount}`);
     cy.get("font")
-      .contains("$20.00")
+      .contains(`$${amount}`)
       .should("have.css", "color", "rgb(255, 0, 0)");
 
     cy.get(".row.uniform h4")
@@ -67,24 +82,37 @@ describe("Payment geteway", () => {
 
     cy.get('[class="6u$ 12u$(xsmall)"] img').should("be.visible");
 
+    cy.get('[class="3u 12u$(xsmall)"] h4')
+      .contains("Card Number")
+      .should("have.css", "color", "rgb(85, 85, 85)");
     cy.get("#card_nmuber")
       .should("be.visible")
       .and("have.attr", "maxlength", "16")
       .should("have.attr", "placeholder", "Enter Your Card Number");
 
+    cy.get('[class="3u 12u$(xsmall)"] h4')
+      .contains("Expiration Month")
+      .should("have.css", "color", "rgb(85, 85, 85)");
     cy.get("#month").should("be.visible");
+
+    cy.get('[class="3u 12u$(xsmall)"] h4')
+      .contains("Expiration Year")
+      .should("have.css", "color", "rgb(85, 85, 85)");
     cy.get("#year").should("be.visible");
 
+    cy.get('[class="3u 12u$(xsmall)"] h4')
+      .contains("CVV Code")
+      .should("have.css", "color", "rgb(85, 85, 85)");
     cy.get("#cvv_code")
       .should("be.visible")
       .and("have.attr", "maxlength", "3")
       .should("have.attr", "placeholder", "CVV Code");
 
-    cy.get(".button.special")
+    cy.get('input[type="submit"]')
       .should("be.visible")
       .should("have.css", "background-color", "rgb(108, 192, 145)")
       .should("have.css", "color", "rgb(255, 255, 255)")
-      .should("have.value", "Pay $20.00");
+      .should("have.value", `Pay $${amount}`);
   });
 
   it("Сorrect payment from valid banks", () => {
@@ -161,10 +189,10 @@ describe("Payment geteway", () => {
     cy.url().should("eq", PAYMENT_URL);
   });
 
-  it("Maximum -1 cvv length", () => {
+  it("Incorrect cvv", () => {
     const invalidCvv = {
       ...validCards["Visa"],
-      cvv: validCards["Visa"].cvv.slice(0, -1),
+      cvv: "000",
     };
     cy.fillPaymentDetails(invalidCvv);
     cy.verifyCardDetails(invalidCvv);

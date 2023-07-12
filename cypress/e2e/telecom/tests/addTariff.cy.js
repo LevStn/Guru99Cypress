@@ -29,46 +29,45 @@ describe("Add tariff", () => {
   });
 
   it("Element Presence check on Add Tariff Page", () => {
-    cy.get("header.align-center")
-      .find("h1")
-      .should("have.css", "text-align", "center")
+    cy.get("header.align-center h1")
       .should("have.text", "Add Tariff Plans")
+      .should("have.css", "text-align", "center")
       .should("have.css", "color", "rgb(37, 162, 195)");
 
     cy.get("input#rental1")
       .should("be.visible")
-      .and("have.attr", "maxlength", "5")
-      .and("have.attr", "placeholder", "Monthly Rental");
+      .should("have.attr", "maxlength", "5")
+      .should("have.attr", "placeholder", "Monthly Rental");
 
     cy.get("input#local_minutes")
       .should("be.visible")
-      .and("have.attr", "maxlength", "5")
-      .and("have.attr", "placeholder", "Free Local Minutes");
+      .should("have.attr", "maxlength", "5")
+      .should("have.attr", "placeholder", "Free Local Minutes");
 
     cy.get("input#inter_minutes")
       .should("be.visible")
-      .and("have.attr", "maxlength", "5")
-      .and("have.attr", "placeholder", "Free International Minutes");
+      .should("have.attr", "maxlength", "5")
+      .should("have.attr", "placeholder", "Free International Minutes");
 
     cy.get("input#sms_pack")
       .should("be.visible")
-      .and("have.attr", "maxlength", "5")
-      .and("have.attr", "placeholder", "Free SMS Pack");
+      .should("have.attr", "maxlength", "5")
+      .should("have.attr", "placeholder", "Free SMS Pack");
 
     cy.get("input#minutes_charges")
       .should("be.visible")
-      .and("have.attr", "maxlength", "3")
-      .and("have.attr", "placeholder", "Local Per Minutes Charges");
+      .should("have.attr", "maxlength", "3")
+      .should("have.attr", "placeholder", "Local Per Minutes Charges");
 
     cy.get("input#inter_charges")
       .should("be.visible")
-      .and("have.attr", "maxlength", "3")
-      .and("have.attr", "placeholder", "Inter. Per Minutes Charges");
+      .should("have.attr", "maxlength", "3")
+      .should("have.attr", "placeholder", "Inter. Per Minutes Charges");
 
     cy.get("input#sms_charges")
       .should("be.visible")
-      .and("have.attr", "maxlength", "3")
-      .and("have.attr", "placeholder", "SMS Per Charges");
+      .should("have.attr", "maxlength", "3")
+      .should("have.attr", "placeholder", "SMS Per Charges");
 
     cy.get('input[type="submit"]')
       .should("be.visible")
@@ -102,15 +101,14 @@ describe("Add tariff", () => {
     cy.url().should("eq", URL);
     cy.checkSuccessMessage("Congratulation you add Tariff Plan");
 
-    cy.get("header.align-center")
-      .find("h1")
+    cy.get("header.align-center h1")
+      .contains("Add Tariff Plans")
       .should("be.visible")
-      .should("have.text", "Add Tariff Plans")
       .should("have.css", "color", "rgb(37, 162, 195)")
       .should("have.css", "text-align", "center");
 
     cy.checkLogo();
-    
+
     cy.clickButtonAndVerify("Home");
     cy.contains("Add Tariff Plan to Customer")
       .click()

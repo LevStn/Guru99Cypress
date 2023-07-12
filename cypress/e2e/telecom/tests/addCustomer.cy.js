@@ -37,20 +37,20 @@ describe("Add customer", () => {
       .should("have.css", "font-size", "18px");
 
     cy.get('label[for="done"]')
-      .should("exist")
       .should("have.text", "Done")
+      .should("exist")
       .should("have.css", "color", "rgb(118, 125, 133)");
     cy.get("input#done").should("exist");
 
     cy.get('label[for="pending"]')
-      .should("exist")
       .should("have.text", "Pending")
+      .should("exist")
       .should("have.css", "color", "rgb(118, 125, 133)");
     cy.get("input#pending").should("exist");
 
     cy.get("div.12u\\$ h3")
-      .should("exist")
       .should("have.text", "Billing address")
+      .should("exist")
       .should("have.css", "color", "rgb(37, 162, 195)")
       .should("have.css", "font-weight", "700")
       .should("have.css", "font-family", "Montserrat, sans-serif")
@@ -103,10 +103,10 @@ describe("Add customer", () => {
     cy.checkLogo();
 
     cy.get("h1")
+      .should("have.text", "Access Details to Guru99 Telecom")
       .should("exist")
       .should("be.visible")
       .should("have.css", "color", "rgb(37, 162, 195)")
-      .should("have.text", "Access Details to Guru99 Telecom")
       .should("have.css", "text-align", "center");
 
     cy.clickButtonAndVerify("Home");

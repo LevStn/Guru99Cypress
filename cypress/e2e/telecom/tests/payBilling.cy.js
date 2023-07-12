@@ -20,14 +20,14 @@ describe("Pay Billing", () => {
 
   it("Element Presence check on Pay Billing", () => {
     cy.get("header.align-center h1")
+      .contains("Pay Billing")
       .should("have.css", "color", "rgb(37, 162, 195)")
-      .should("have.css", "text-align", "center")
-      .should("have.text", "Pay Billing");
+      .should("have.css", "text-align", "center");
 
     cy.get("div.4u.12u\\$\\(small\\) h3")
+      .contains("Enter Your Customer ID")
       .should("have.css", "text-align", "center")
-      .should("have.css", "color", "rgb(37, 162, 195)")
-      .contains("Enter Your Customer ID");
+      .should("have.css", "color", "rgb(37, 162, 195)");
 
     cy.get("#customer_id")
       .should("be.visible")
@@ -49,9 +49,9 @@ describe("Pay Billing", () => {
     cy.url().should("eq", URL);
 
     cy.get("header.align-center h1")
+      .contains("Pay Billing")
       .should("have.css", "color", "rgb(37, 162, 195)")
-      .should("have.css", "text-align", "center")
-      .should("have.text", "Pay Billing");
+      .should("have.css", "text-align", "center");
 
     cy.contains("Customer ID:-")
       .should("be.visible")

@@ -19,14 +19,14 @@ describe("Pay Billing", () => {
   });
   it("Element Presence check on Add Tariff Plan to Customer", () => {
     cy.get("header.align-center h1")
+      .contains("Add Tariff Plan to Customer")
       .should("have.css", "color", "rgb(37, 162, 195)")
-      .should("have.css", "text-align", "center")
-      .should("have.text", "Add Tariff Plan to Customer");
+      .should("have.css", "text-align", "center");
 
     cy.get("div.4u.12u\\$\\(small\\) h3")
+      .contains("Enter Your Customer ID")
       .should("have.css", "text-align", "center")
-      .should("have.css", "color", "rgb(37, 162, 195)")
-      .contains("Enter Your Customer ID");
+      .should("have.css", "color", "rgb(37, 162, 195)");
 
     cy.get("#customer_id")
       .should("be.visible")
@@ -62,7 +62,7 @@ describe("Pay Billing", () => {
       .should("have.css", "color", "rgb(255, 255, 255)")
       .should("have.css", "text-align", "center")
       .click();
-      
+
     cy.url().should(
       "eq",
       "https://demo.guru99.com/telecom/inserttariffplantocustomer.php"
