@@ -9,7 +9,7 @@ const elements = [
   "SMS Per Charges",
 ];
 
-describe("Add tariff", () => {
+describe("Add tariff negative", () => {
   let customerId;
 
   before(() => {

@@ -3,7 +3,7 @@ const SUCCESS_URL =
 const PAYMENT_URL =
   "https://demo.guru99.com/payment-gateway/process_purchasetoy.php";
 
-describe("Payment geteway", () => {
+describe("Payment geteway positive", () => {
   let amount;
   let validCards;
 

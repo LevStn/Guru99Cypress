@@ -1,6 +1,6 @@
 const URL = "https://demo.guru99.com/telecom/addtariffplans.php";
 
-describe("Add tariff", () => {
+describe("Add tariff positive", () => {
   let customerId;
 
   before(() => {

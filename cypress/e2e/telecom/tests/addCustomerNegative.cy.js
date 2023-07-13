@@ -1,7 +1,7 @@
 const SUCCESS_URL = "https://demo.guru99.com/telecom/access.php?uid=";
 const BASE_URL = "https://demo.guru99.com/telecom/addcustomer.php";
 
-describe("Add customer", () => {
+describe("Add customer negative", () => {
   let validCustomer;
   before(() => {
     cy.readFile("cypress/fixtures/customer.json").then((json) => {

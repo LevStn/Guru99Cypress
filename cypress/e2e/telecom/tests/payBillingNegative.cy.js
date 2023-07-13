@@ -1,6 +1,6 @@
 const URL = "https://demo.guru99.com/telecom/billing.php";
 
-describe("Pay Billing", () => {
+describe("Pay Billing negative", () => {
   let customerIdValue;
   before(() => {
     cy.getValidCustomerId().then((customerId) => {
