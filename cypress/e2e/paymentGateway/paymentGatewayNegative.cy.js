@@ -3,46 +3,18 @@ const SUCCESS_URL =
 const PAYMENT_URL =
   "https://demo.guru99.com/payment-gateway/process_purchasetoy.php";
 
-const validCards = {
-  Visa: {
-    number: "4241257934945517",
-    month: "11",
-    year: "2025",
-    cvv: "857",
-    balance: "50",
-  },
-  "Master Card": {
-    number: "5555555555554444",
-    month: "12",
-    year: "2023",
-    cvv: "874",
-    balance: "50",
-  },
-  Discover: {
-    number: "6011111111111117",
-    month: "4",
-    year: "2026",
-    cvv: "231",
-    balance: "50",
-  },
-  "American Express": {
-    number: "3782822463100055",
-    month: "3",
-    year: "2026",
-    cvv: "995",
-    balance: "50",
-  },
-};
-
 describe("Payment geteway", () => {
   let amount;
+  let validCards;
+
+  before(() => {
+    cy.readFile("cypress/fixtures/validCards.json").then((json) => {
+      validCards = json;
+    });
+  });
 
   beforeEach(() => {
-    cy.fixture("cookies.json").then((cookies) => {
-      cookies.forEach((cookie) => {
-        cy.setCookie(cookie.name, cookie.value);
-      });
-    });
+    cy.setCustomCookies("cookies.json");
     cy.log("open page");
     cy.visit("https://demo.guru99.com/payment-gateway/index.php");
 
@@ -54,7 +26,7 @@ describe("Payment geteway", () => {
         const val = $select.val();
         const quantity = parseInt(val);
 
-        amount =(price * quantity).toFixed(2);
+        amount = (price * quantity).toFixed(2);
       });
     });
     cy.get('input[type="submit"]').click();
@@ -113,32 +85,6 @@ describe("Payment geteway", () => {
       .should("have.css", "background-color", "rgb(108, 192, 145)")
       .should("have.css", "color", "rgb(255, 255, 255)")
       .should("have.value", `Pay $${amount}`);
-  });
-
-  it("Сorrect payment from valid banks", () => {
-    Object.keys(validCards).forEach((bank, index) => {
-      const card = validCards[bank];
-
-      cy.fillPaymentDetails(card);
-      cy.verifyCardDetails(card);
-      cy.get(".button.special").click();
-      cy.wait(2000);
-      cy.get("h3 strong")
-        .invoke("text")
-        .then((text) => {
-          const orderId = text.match(/\d+/g).join("");
-          const expectedUrl = `${SUCCESS_URL}${orderId}`;
-          cy.url().should("eq", expectedUrl);
-        });
-
-      if (index !== Object.keys(validCards).length - 1) {
-        cy.visit("https://demo.guru99.com/payment-gateway/index.php");
-        cy.get("input.button.special").click();
-      }
-    });
-    cy.get(".table-wrapper h2")
-      .contains("Payment successfull!")
-      .should("have.css", "color", "rgb(85, 85, 85)");
   });
 
   it("Maximum +1 length check", () => {

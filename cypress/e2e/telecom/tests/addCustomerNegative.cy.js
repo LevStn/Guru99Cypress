@@ -10,11 +10,7 @@ describe("Add customer", () => {
   });
 
   beforeEach(() => {
-    cy.fixture("cookies.json").then((cookies) => {
-      cookies.forEach((cookie) => {
-        cy.setCookie(cookie.name, cookie.value);
-      });
-    });
+    cy.setCustomCookies("cookies.json");
     cy.log("open page");
     cy.visit(BASE_URL);
   });
@@ -86,60 +82,6 @@ describe("Add customer", () => {
       .should("have.css", "text-align", "center");
 
     cy.checkLogo();
-  });
-
-  it("Enter valid data whith the radiobutton done", () => {
-    let validId;
-    cy.get("#done").check({ force: true });
-    cy.fillForm(validCustomer);
-    cy.checkFormData(validCustomer);
-    cy.get('input[type="submit"]').click();
-
-    cy.getCustomerId().then((customerId) => {
-      validId = customerId;
-      cy.url().should("eq", `${SUCCESS_URL}${customerId}`);
-    });
-
-    cy.checkLogo();
-
-    cy.get("h1")
-      .should("have.text", "Access Details to Guru99 Telecom")
-      .should("exist")
-      .should("be.visible")
-      .should("have.css", "color", "rgb(37, 162, 195)")
-      .should("have.css", "text-align", "center");
-
-    cy.clickButtonAndVerify("Home");
-
-    cy.contains("Add Tariff Plan to Customer")
-      .click()
-      .then(() => {
-        cy.get("#customer_id").type(validId);
-        cy.get('input[name="submit"]').click();
-      });
-    cy.get("font").should("contain", "ACTIVE");
-  });
-
-  it("Enter valid data whith the radiobutton pending", () => {
-    let validId;
-    cy.get("#pending").check({ force: true });
-    cy.fillForm(validCustomer);
-    cy.checkFormData(validCustomer);
-    cy.get('input[type="submit"]').click();
-
-    cy.getCustomerId().then((customerId) => {
-      validId = customerId;
-      cy.url().should("eq", `${SUCCESS_URL}${customerId}`);
-    });
-
-    cy.get("a.button").contains("Home").click();
-    cy.contains("Add Tariff Plan to Customer")
-      .click()
-      .then(() => {
-        cy.get("#customer_id").type(validId);
-        cy.get('input[name="submit"]').click();
-      });
-    cy.get("font").should("contain", "INACTIVE");
   });
 
   it("Сhecking the transition to the home page when clicking on the logo", () => {

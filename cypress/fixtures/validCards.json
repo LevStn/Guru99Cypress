@@ -1,0 +1,31 @@
+{
+    "Visa": {
+      "number": "4241257934945517",
+      "month": "11",
+      "year": "2025",
+      "cvv": "857",
+      "balance": "50"
+    },
+    "Master Card": {
+      "number": "5555555555554444",
+      "month": "12",
+      "year": "2023",
+      "cvv": "874",
+      "balance": "50"
+    },
+    "Discover": {
+      "number": "6011111111111117",
+      "month": "4",
+      "year": "2026",
+      "cvv": "231",
+      "balance": "50"
+    },
+    "American Express": {
+      "number": "3782822463100055",
+      "month": "3",
+      "year": "2026",
+      "cvv": "995",
+      "balance": "50"
+    }
+  }
+  
