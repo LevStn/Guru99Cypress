@@ -4,7 +4,7 @@ const PAYMENT_URL =
   "https://demo.guru99.com/payment-gateway/process_purchasetoy.php";
 
 describe("Payment geteway negative", () => {
-  let amount;
+  let price;
   let validCards;
 
   before(() => {
@@ -20,13 +20,13 @@ describe("Payment geteway negative", () => {
 
     cy.get("h3").then(($h3) => {
       const text = $h3.text();
-      const price = parseFloat(text.replace("Price: $", ""));
+      const cost = parseFloat(text.replace("Price: $", ""));
 
       cy.get('select[name="quantity"]').then(($select) => {
         const val = $select.val();
         const quantity = parseInt(val);
 
-        amount = (price * quantity).toFixed(2);
+        price = (cost * quantity).toFixed(2);
       });
     });
     cy.get('input[type="submit"]').click();
@@ -42,9 +42,8 @@ describe("Payment geteway negative", () => {
       .contains("Pay Ammount")
       .should("have.css", "color", "rgb(154, 154, 154)");
 
-    console.log("aa1", `${amount}`);
     cy.get("font")
-      .contains(`$${amount}`)
+      .contains(`$${price}`)
       .should("have.css", "color", "rgb(255, 0, 0)");
 
     cy.get(".row.uniform h4")
@@ -84,7 +83,7 @@ describe("Payment geteway negative", () => {
       .should("be.visible")
       .should("have.css", "background-color", "rgb(108, 192, 145)")
       .should("have.css", "color", "rgb(255, 255, 255)")
-      .should("have.value", `Pay $${amount}`);
+      .should("have.value", `Pay $${price}`);
   });
 
   it("Maximum +1 length check", () => {

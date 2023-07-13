@@ -4,7 +4,6 @@ const PAYMENT_URL =
   "https://demo.guru99.com/payment-gateway/process_purchasetoy.php";
 
 describe("Payment geteway positive", () => {
-  let amount;
   let validCards;
 
   before(() => {
@@ -17,18 +16,6 @@ describe("Payment geteway positive", () => {
     cy.setCustomCookies("cookies.json");
     cy.log("open page");
     cy.visit("https://demo.guru99.com/payment-gateway/index.php");
-
-    cy.get("h3").then(($h3) => {
-      const text = $h3.text();
-      const price = parseFloat(text.replace("Price: $", ""));
-
-      cy.get('select[name="quantity"]').then(($select) => {
-        const val = $select.val();
-        const quantity = parseInt(val);
-
-        amount = (price * quantity).toFixed(2);
-      });
-    });
     cy.get('input[type="submit"]').click();
   });
 
