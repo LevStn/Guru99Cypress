@@ -8,6 +8,7 @@ describe("Payment geteway negative", () => {
   let validCards;
 
   before(() => {
+    cy.log("Getting valid cards");
     cy.readFile("cypress/fixtures/validCards.json").then((json) => {
       validCards = json;
     });
@@ -15,9 +16,10 @@ describe("Payment geteway negative", () => {
 
   beforeEach(() => {
     cy.setCustomCookies("cookies.json");
-    cy.log("open page");
+    cy.log("Open page select quantity");
     cy.visit("https://demo.guru99.com/payment-gateway/index.php");
 
+    cy.log("Getting a price to write off");
     cy.get("h3").then(($h3) => {
       const text = $h3.text();
       const cost = parseFloat(text.replace("Price: $", ""));
@@ -33,52 +35,64 @@ describe("Payment geteway negative", () => {
   });
 
   it("Element Presence check on pay page", () => {
+    cy.log("Checking label Payment Process");
     cy.get(".align-center h2")
       .should("have.text", "Payment Process")
       .should("have.css", "text-align", "center")
       .should("have.css", "color", "rgb(85, 85, 85)");
 
+    cy.log("Checking label Payment Ammount");
     cy.get(".row")
       .contains("Pay Ammount")
       .should("have.css", "color", "rgb(154, 154, 154)");
 
+    cy.log(`Checking label Price(${price})`);
     cy.get("font")
       .contains(`$${price}`)
       .should("have.css", "color", "rgb(255, 0, 0)");
 
+    cy.log("Checking label We accept");
     cy.get(".row.uniform h4")
       .contains("We accept")
       .should("have.css", "text-align", "center")
       .should("have.css", "color", "rgb(85, 85, 85)");
 
+    cy.log("Checking img cards");
     cy.get('[class="6u$ 12u$(xsmall)"] img').should("be.visible");
 
+    cy.log("Checking label Card Number");
     cy.get('[class="3u 12u$(xsmall)"] h4')
       .contains("Card Number")
       .should("have.css", "color", "rgb(85, 85, 85)");
+    cy.log("Checking field Card Number");
     cy.get("#card_nmuber")
       .should("be.visible")
       .and("have.attr", "maxlength", "16")
       .should("have.attr", "placeholder", "Enter Your Card Number");
 
+    cy.log("Checking Expiration Month");
     cy.get('[class="3u 12u$(xsmall)"] h4')
       .contains("Expiration Month")
       .should("have.css", "color", "rgb(85, 85, 85)");
     cy.get("#month").should("be.visible");
 
+    cy.log("Checking Expiration Year");
     cy.get('[class="3u 12u$(xsmall)"] h4')
       .contains("Expiration Year")
       .should("have.css", "color", "rgb(85, 85, 85)");
     cy.get("#year").should("be.visible");
 
+    cy.log("Checking label CVV Code");
     cy.get('[class="3u 12u$(xsmall)"] h4')
       .contains("CVV Code")
       .should("have.css", "color", "rgb(85, 85, 85)");
+    cy.log("Checking field CVV Code");
     cy.get("#cvv_code")
       .should("be.visible")
       .and("have.attr", "maxlength", "3")
       .should("have.attr", "placeholder", "CVV Code");
 
+    cy.log("Checking button Submit");
     cy.get('input[type="submit"]')
       .should("be.visible")
       .should("have.css", "background-color", "rgb(108, 192, 145)")

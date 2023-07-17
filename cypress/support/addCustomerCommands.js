@@ -3,6 +3,7 @@ Cypress.Commands.add("fillForm", (data) => {
 
   fields.forEach((field) => {
     const value = data[field];
+    cy.log(`Value entered ${field}:${data[field]}`);
 
     if (value !== "") {
       if (field === "message") {
@@ -15,6 +16,7 @@ Cypress.Commands.add("fillForm", (data) => {
 });
 
 Cypress.Commands.add("clearForm", () => {
+  cy.log("Clear form");
   cy.get("#fname").clear();
   cy.get("#lname").clear();
   cy.get("#email").clear();
@@ -23,6 +25,7 @@ Cypress.Commands.add("clearForm", () => {
 });
 
 Cypress.Commands.add("getCustomerId", () => {
+  cy.log("Get customer id");
   return cy
     .get("table.alt.access h3")
     .should("be.visible")
@@ -34,6 +37,7 @@ Cypress.Commands.add("getCustomerId", () => {
 });
 
 Cypress.Commands.add("checkFormData", (data) => {
+  cy.log("Check data in form");
   const { fname, lname, email, message, telephoneno } = data;
   cy.get("#fname").should("have.value", fname);
   cy.get("#lname").should("have.value", lname);
@@ -43,10 +47,12 @@ Cypress.Commands.add("checkFormData", (data) => {
 });
 
 Cypress.Commands.add("removeData", (fieldName) => {
+  cy.log(`Remove ${fieldName}`);
   cy.get(`#${fieldName}`).clear();
 });
 
 Cypress.Commands.add("checkErrorMessageCustomerName", (errorMessage) => {
+  cy.log(`Check error message in customer name:${errorMessage}`);
   cy.get("#message").then(($message) => {
     if ($message.length > 0 && $message.css("visibility") !== "hidden") {
       const text = $message.text().trim();
@@ -69,9 +75,9 @@ Cypress.Commands.add("checkErrorMessageCustomerName", (errorMessage) => {
 
 Cypress.Commands.add(
   "checkInvalidData",
-  (data, invalidData, errorMessage, invalidFields) => {
+  (validCustomer, invalidData, errorMessage, invalidFields) => {
     invalidFields.forEach((field) => {
-      const invalidFormData = Cypress._.merge({}, data, {
+      const invalidFormData = Cypress._.merge({}, validCustomer, {
         [field]: invalidData,
       });
       cy.fillForm(invalidFormData);
@@ -84,6 +90,7 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add("checkLogo", () => {
+  cy.log("Check logo");
   cy.get("a.logo")
     .should("be.visible")
     .should("have.css", "background-color", "rgba(0, 0, 0, 0)")
@@ -95,6 +102,6 @@ Cypress.Commands.add("checkLogo", () => {
     .should("have.css", "font-weight", "300");
 });
 
-Cypress.Commands.add('getJson', (filename) => {
+Cypress.Commands.add("getJson", (filename) => {
   return cy.readFile(`cypress/fixtures/${filename}`);
 });

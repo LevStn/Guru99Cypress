@@ -25,52 +25,62 @@ describe("Add tariff negative", () => {
   });
 
   it("Element Presence check on Add Tariff Page", () => {
+    cy.log("Checking label Add Tariff Plans");
     cy.get("header.align-center h1")
       .should("have.text", "Add Tariff Plans")
       .should("have.css", "text-align", "center")
       .should("have.css", "color", "rgb(37, 162, 195)");
 
+    cy.log("Checking input Monthly Rental");
     cy.get("input#rental1")
       .should("be.visible")
       .should("have.attr", "maxlength", "5")
       .should("have.attr", "placeholder", "Monthly Rental");
 
+    cy.log("Checking input Free Local Minutes");
     cy.get("input#local_minutes")
       .should("be.visible")
       .should("have.attr", "maxlength", "5")
       .should("have.attr", "placeholder", "Free Local Minutes");
 
+    cy.log("Checking input Free International Minutes");
     cy.get("input#inter_minutes")
       .should("be.visible")
       .should("have.attr", "maxlength", "5")
       .should("have.attr", "placeholder", "Free International Minutes");
 
+    cy.log("Checking input Free SMS Pack");
     cy.get("input#sms_pack")
       .should("be.visible")
       .should("have.attr", "maxlength", "5")
       .should("have.attr", "placeholder", "Free SMS Pack");
 
+    cy.log("Checking input Local Per Minutes Charges");
     cy.get("input#minutes_charges")
       .should("be.visible")
       .should("have.attr", "maxlength", "3")
       .should("have.attr", "placeholder", "Local Per Minutes Charges");
 
+    cy.log("Checking input Inter. Per Minutes Charges");
     cy.get("input#inter_charges")
       .should("be.visible")
       .should("have.attr", "maxlength", "3")
       .should("have.attr", "placeholder", "Inter. Per Minutes Charges");
 
+    cy.log("Checking input SMS Per Charges");
     cy.get("input#sms_charges")
       .should("be.visible")
       .should("have.attr", "maxlength", "3")
       .should("have.attr", "placeholder", "SMS Per Charges");
 
+    cy.log("Checking button Submit");
     cy.get('input[type="submit"]')
       .should("be.visible")
       .should("have.css", "background-color", "rgb(246, 117, 94)")
       .should("have.css", "color", "rgb(255, 255, 255)")
       .should("have.css", "text-align", "center");
 
+    cy.log("Checking button Reset");
     cy.get('input[type="reset"]')
       .should("be.visible")
       .should("be.visible")
@@ -81,6 +91,7 @@ describe("Add tariff negative", () => {
     cy.checkLogo();
 
     elements.forEach((text, index) => {
+      cy.log(`Checking label ${text}`);
       cy.get("div.3u.12u\\$\\(small\\) h3")
         .eq(index)
         .should("have.css", "text-align", "center")

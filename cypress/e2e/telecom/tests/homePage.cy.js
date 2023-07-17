@@ -2,11 +2,7 @@ const URL = "https://demo.guru99.com/telecom/index.html";
 
 describe("Home page", () => {
   beforeEach(() => {
-    cy.fixture("cookies.json").then((cookies) => {
-      cookies.forEach((cookie) => {
-        cy.setCookie(cookie.name, cookie.value);
-      });
-    });
+    cy.setCustomCookies("cookies.json");
     cy.log("open page");
     cy.visit(`${URL}`);
   });

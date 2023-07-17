@@ -15,22 +15,26 @@ describe("Pay Billing negative", () => {
   });
 
   it("Element Presence check on Pay Billing", () => {
+    cy.log("Checking label Pay Billing");
     cy.get("header.align-center h1")
       .contains("Pay Billing")
       .should("have.css", "color", "rgb(37, 162, 195)")
       .should("have.css", "text-align", "center");
 
+    cy.log("Checking label Enter Your Customer ID");
     cy.get("div.4u.12u\\$\\(small\\) h3")
       .contains("Enter Your Customer ID")
       .should("have.css", "text-align", "center")
       .should("have.css", "color", "rgb(37, 162, 195)");
 
+    cy.log("Checking input Enter Your Customer ID");
     cy.get("#customer_id")
       .should("be.visible")
       .should("have.attr", "placeholder", "Enter Your Customer ID");
 
     cy.checkLogo();
 
+    cy.log("Checking button Submit");
     cy.get('input[type="submit"]')
       .should("be.visible")
       .should("have.css", "background-color", "rgb(246, 117, 94)")

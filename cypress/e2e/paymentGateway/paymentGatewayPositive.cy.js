@@ -1,12 +1,11 @@
 const SUCCESS_URL =
   "https://demo.guru99.com/payment-gateway/genearte_orderid.php?uid=";
-const PAYMENT_URL =
-  "https://demo.guru99.com/payment-gateway/process_purchasetoy.php";
 
 describe("Payment geteway positive", () => {
   let validCards;
 
   before(() => {
+    cy.log("Getting valid cards");
     cy.readFile("cypress/fixtures/validCards.json").then((json) => {
       validCards = json;
     });
@@ -14,7 +13,7 @@ describe("Payment geteway positive", () => {
 
   beforeEach(() => {
     cy.setCustomCookies("cookies.json");
-    cy.log("open page");
+    cy.log("Open page select quantity");
     cy.visit("https://demo.guru99.com/payment-gateway/index.php");
     cy.get('input[type="submit"]').click();
   });

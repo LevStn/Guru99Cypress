@@ -20,15 +20,19 @@ describe("Pay Billing positive", () => {
     cy.get('[name="submit"]').should("be.visible").click();
     cy.url().should("eq", URL);
 
+    cy.log("Checking label Pay Billing");
     cy.get("header.align-center h1")
       .contains("Pay Billing")
       .should("have.css", "color", "rgb(37, 162, 195)")
       .should("have.css", "text-align", "center");
 
+    cy.log(`Checking label Customer ID:- ${customerIdValue}`);
     cy.contains("Customer ID:-")
       .should("be.visible")
       .should("contain.text", customerIdValue)
       .should("have.css", "color", "rgb(37, 162, 195)");
+
+    cy.log("Checking label Customer Name:-");
     cy.contains("Customer Name:-")
       .should("be.visible")
       .should("contain.text", "John")

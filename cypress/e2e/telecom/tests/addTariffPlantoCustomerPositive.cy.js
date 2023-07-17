@@ -20,15 +20,18 @@ describe("Pay Billing positive", () => {
     cy.get('[name="submit"]').should("be.visible").click();
     cy.url().should("eq", URL);
 
+    cy.log("Checking label Approved Tariff Plan");
     cy.contains("Approved Tariff Plans")
       .should("be.visible")
       .should("have.css", "color", "rgb(37, 162, 195)");
     cy.get("tr").should("exist");
 
+    cy.log("Checking label Unapproved Tariff Plans");
     cy.contains("Unapproved Tariff Plans")
       .should("be.visible")
       .should("have.css", "color", "rgb(37, 162, 195)");
 
+    cy.log("Checking button Submit");
     cy.get('input[type="submit"]')
       .should("be.visible")
       .should("have.css", "background-color", "rgb(246, 117, 94)")

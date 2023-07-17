@@ -4,6 +4,7 @@ const BASE_URL = "https://demo.guru99.com/telecom/addcustomer.php";
 describe("Add customer positive", () => {
   let validCustomer;
   before(() => {
+    cy.log("Getting valid customer");
     cy.readFile("cypress/fixtures/customer.json").then((json) => {
       validCustomer = json;
     });
@@ -29,6 +30,7 @@ describe("Add customer positive", () => {
 
     cy.checkLogo();
 
+    cy.log("Checking label Access Details to Guru99 Telecom");
     cy.get("h1")
       .should("have.text", "Access Details to Guru99 Telecom")
       .should("exist")
