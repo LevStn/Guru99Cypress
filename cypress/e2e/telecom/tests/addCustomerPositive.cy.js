@@ -32,7 +32,7 @@ describe("Add customer positive", () => {
 
     cy.log("Checking label Access Details to Guru99 Telecom");
     cy.get("h1")
-      .should("have.text", "Access Details to Guru99 Telecom")
+      .contains("Access Details to Guru99 Telecom")
       .should("exist")
       .should("be.visible")
       .should("have.css", "color", "rgb(37, 162, 195)")

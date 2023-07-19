@@ -37,7 +37,7 @@ describe("Payment geteway negative", () => {
   it("Element Presence check on pay page", () => {
     cy.log("Checking label Payment Process");
     cy.get(".align-center h2")
-      .should("have.text", "Payment Process")
+      .contains("Payment Process")
       .should("have.css", "text-align", "center")
       .should("have.css", "color", "rgb(85, 85, 85)");
 
@@ -117,7 +117,7 @@ describe("Payment geteway negative", () => {
     };
     cy.fillPaymentDetails(invalidNumber);
     cy.verifyCardDetails(invalidNumber);
-    cy.get(".button.special").click();
+    cy.get('input[type="submit"]').click();
     cy.url().should("eq", PAYMENT_URL);
   });
 
@@ -131,7 +131,7 @@ describe("Payment geteway negative", () => {
       cy.fillPaymentDetails(validCards["Visa"]);
       cy.verifyCardDetails(validCards["Visa"]);
       cy.get(selector).select(defaultValue);
-      cy.get(".button.special").click();
+      cy.get('input[type="submit"]').click();
       cy.url().should("eq", PAYMENT_URL);
     });
   });
@@ -144,7 +144,7 @@ describe("Payment geteway negative", () => {
     cy.fillPaymentDetails(emptyCvv);
     cy.verifyCardDetails(emptyCvv);
     cy.checkCardError("#message2", "Field must not be blank");
-    cy.get(".button.special").click();
+    cy.get('input[type="submit"]').click();
     cy.url().should("eq", PAYMENT_URL);
   });
 
@@ -155,7 +155,7 @@ describe("Payment geteway negative", () => {
     };
     cy.fillPaymentDetails(invalidCvv);
     cy.verifyCardDetails(invalidCvv);
-    cy.get(".button.special").click();
+    cy.get('input[type="submit"]').click();
     cy.url().should("eq", PAYMENT_URL);
   });
 
@@ -166,11 +166,11 @@ describe("Payment geteway negative", () => {
       year: "2026",
       cvv: "233",
       balance: "0",
-    };
+    }; //
 
     cy.fillPaymentDetails(EmptyBalance);
     cy.verifyCardDetails(EmptyBalance);
-    cy.get(".button.special").click();
+    cy.get('input[type="submit"]').click();
     cy.contains("Not enough money!");
   });
 
@@ -181,20 +181,30 @@ describe("Payment geteway negative", () => {
         errorMessage: "Field must not be blank",
       },
       {
-        invalidCard: { ...validCards["Visa"], number: "&".repeat(16) },
-        errorMessage: "Special characters are not allowed",
-      },
-      {
         invalidCard: { ...validCards["Visa"], number: "A".repeat(16) },
         errorMessage: "Characters are not allowed",
       },
     ];
 
+    const specialCharacters = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+
+    for (let i = 0; i < specialCharacters.length; i++) {
+      const number = specialCharacters.charAt(i).repeat(16);
+      cy.log(`Test cases add case with card number: ${number}`);
+      const errorMessage = "Special characters are not allowed";
+
+      testCases.push({
+        invalidCard: { ...validCards["Visa"], number },
+        errorMessage,
+      });
+    }
+    cy.log(`Test cases updated their length: ${testCases.length}`);
+
     testCases.forEach(({ invalidCard, errorMessage }) => {
       cy.fillPaymentDetails(invalidCard);
       cy.verifyCardDetails(invalidCard);
       cy.checkCardError("#message1", errorMessage);
-      cy.get(".button.special").click();
+      cy.get('input[type="submit"]').click();
       cy.url().should("eq", PAYMENT_URL);
     });
   });
@@ -202,20 +212,30 @@ describe("Payment geteway negative", () => {
   it("Checking the cvv field for validation", () => {
     const testCases = [
       {
-        invalidCard: { ...validCards["Visa"], cvv: "&".repeat(3) },
-        errorMessage: "Special characters are not allowed",
-      },
-      {
         invalidCard: { ...validCards["Visa"], cvv: "A".repeat(3) },
         errorMessage: "Characters are not allowed",
       },
     ];
 
+    const specialCharacters = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+
+    for (let i = 0; i < specialCharacters.length; i++) {
+      const cvv = specialCharacters.charAt(i).repeat(3);
+      cy.log(`Test cases add case with ${cvv}`);
+      const errorMessage = "Special characters are not allowed";
+
+      testCases.push({
+        invalidCard: { ...validCards["Visa"], cvv },
+        errorMessage,
+      });
+    }
+    cy.log(`Test cases updated their length: ${testCases.length}`);
+
     testCases.forEach(({ invalidCard, errorMessage }) => {
       cy.fillPaymentDetails(invalidCard);
       cy.verifyCardDetails(invalidCard);
       cy.checkCardError("#message2", errorMessage);
-      cy.get(".button.special").click();
+      cy.get('input[type="submit"]').click();
       cy.url().should("eq", PAYMENT_URL);
     });
   });

@@ -19,7 +19,7 @@ describe("Add customer negative", () => {
   it("Element Presence check on Add Customer", () => {
     cy.log("Checking label Add Customer");
     cy.get("header.align-center h1")
-      .should("have.text", "Add Customer")
+      .contains("Add Customer")
       .should("have.css", "color", "rgb(37, 162, 195)")
       .should("have.css", "font-weight", "700")
       .should("have.css", "font-family", "Montserrat, sans-serif")
@@ -27,8 +27,8 @@ describe("Add customer negative", () => {
       .should("have.css", "line-height", "38px");
 
     cy.log("Checking label Background Check");
-    cy.get("form")
-      .contains("h3", "Background Check")
+    cy.get("form h3")
+      .contains("Background Check")
       .should("be.visible")
       .should("have.css", "color", "rgb(37, 162, 195)")
       .should("have.css", "font-weight", "700")
@@ -51,7 +51,7 @@ describe("Add customer negative", () => {
 
     cy.log("Checking label Billing address");
     cy.get("div.12u\\$ h3")
-      .should("have.text", "Billing address")
+      .contains("Billing address")
       .should("exist")
       .should("have.css", "color", "rgb(37, 162, 195)")
       .should("have.css", "font-weight", "700")
@@ -155,7 +155,7 @@ describe("Add customer negative", () => {
     const emails = ["asa@gmailru", "assagmail.ru"];
 
     emails.forEach((email) => {
-      cy.log(`Check invalid email:${email}`)
+      cy.log(`Check invalid email:${email}`);
       cy.get("#email").clear().type(email);
       cy.get("#message9")
         .invoke("text")

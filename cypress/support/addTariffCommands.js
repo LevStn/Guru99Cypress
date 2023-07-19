@@ -2,7 +2,15 @@ Cypress.Commands.add("insertData", (values) => {
   cy.get(".uniform > .3u > input").each(($el, index) => {
     const val = values[index % values.length];
     cy.log(`Insert ${val} at index:${index}`);
-    cy.wrap($el).scrollIntoView().type(val);
+
+    cy.wrap($el)
+      .scrollIntoView()
+      .then(($input) => {
+        if ($input.val().trim() !== "") {
+          cy.wrap($input).clear();
+        }
+        cy.wrap($input).type(val);
+      });
   });
 });
 
@@ -57,7 +65,7 @@ Cypress.Commands.add("сlearData", () => {
 });
 
 Cypress.Commands.add("popUpErrorCheck", (stub) => {
-  cy.log("Pop up error check")
+  cy.log("Pop up error check");
   const firstCall = stub.getCall(0);
   const expectedArgument = "please fill all fields Correct Value";
 

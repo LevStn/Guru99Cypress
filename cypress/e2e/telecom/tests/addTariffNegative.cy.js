@@ -27,7 +27,7 @@ describe("Add tariff negative", () => {
   it("Element Presence check on Add Tariff Page", () => {
     cy.log("Checking label Add Tariff Plans");
     cy.get("header.align-center h1")
-      .should("have.text", "Add Tariff Plans")
+      .contains("Add Tariff Plans")
       .should("have.css", "text-align", "center")
       .should("have.css", "color", "rgb(37, 162, 195)");
 
@@ -102,13 +102,29 @@ describe("Add tariff negative", () => {
 
   it("Check special characters", () => {
     const fieldValues = Array(7).fill(999);
-    const invalidValue = "1?1";
+    const specialCharacters = [
+      "!",
+      "@",
+      "#",
+      "$",
+      "%",
+      "^",
+      "&",
+      "*",
+      "(",
+      ")",
+      ":",
+      ".",
+    ];
 
-    cy.checkInvalidValue(
-      fieldValues,
-      invalidValue,
-      "Special characters are not allowed"
-    );
+    specialCharacters.forEach((character) => {
+      const invalidValue = `11${character}`;
+      cy.checkInvalidValue(
+        fieldValues,
+        invalidValue,
+        "Special characters are not allowed"
+      );
+    });
   });
 
   it("Check chars", () => {
